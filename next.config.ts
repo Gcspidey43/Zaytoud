@@ -1,35 +1,33 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  output: "export", // ⬅️ THIS is crucial for Cloudflare Pages
+  trailingSlash: true, // Ensures consistent URLs
+  reactStrictMode: false,
+  devIndicators: false,
   typescript: {
     ignoreBuildErrors: true,
   },
-  // 禁用 Next.js 热重载，由 nodemon 处理重编译
-  reactStrictMode: false,
-  devIndicators: false,
-  // Configuration for Cloudflare Pages compatibility
-  trailingSlash: true, // Ensures consistent URL handling
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   images: {
-    unoptimized: true, // Required for Cloudflare Pages to handle images properly
+    unoptimized: true, // Cloudflare Pages doesn’t support Next image optimization
   },
   webpack: (config, { dev, isServer }) => {
     if (dev) {
-      // 禁用 webpack 的热模块替换
       config.watchOptions = {
-        ignored: ['**/*'], // 忽略所有文件变化
+        ignored: ["**/*"], // Disable webpack hot reload
       };
     }
-    
-    // Completely disable webpack cache in production to avoid large pack files
+
     if (!dev) {
       config.cache = false;
-      
-      // Additional optimizations for smaller bundles
+
       config.optimization = {
         ...config.optimization,
         splitChunks: {
-          chunks: 'all',
+          chunks: "all",
           maxInitialRequests: 10,
           maxAsyncRequests: 10,
           cacheGroups: {
@@ -49,7 +47,6 @@ const nextConfig: NextConfig = {
         minimize: true,
       };
 
-      // For client-side bundles
       if (!isServer) {
         config.optimization.splitChunks = {
           ...config.optimization.splitChunks,
@@ -57,36 +54,31 @@ const nextConfig: NextConfig = {
             ...config.optimization.splitChunks?.cacheGroups,
             vendor: {
               test: /[\\/]node_modules[\\/]/,
-              name: 'vendors-client',
-              chunks: 'all',
+              name: "vendors-client",
+              chunks: "all",
               priority: 20,
-              maxSize: 24000000, // 24MB - just under the 25MB limit
-            }
-          }
+              maxSize: 24000000,
+            },
+          },
         };
       } else {
-        // For server-side bundles
         config.optimization.splitChunks = {
           ...config.optimization.splitChunks,
           cacheGroups: {
             ...config.optimization.splitChunks?.cacheGroups,
             vendor: {
               test: /[\\/]node_modules[\\/]/,
-              name: 'vendors-server',
-              chunks: 'all',
+              name: "vendors-server",
+              chunks: "all",
               priority: 20,
-              maxSize: 24000000, // 24MB - just under the 25MB limit
-            }
-          }
+              maxSize: 24000000,
+            },
+          },
         };
       }
     }
-    
+
     return config;
-  },
-  eslint: {
-    // 构建时忽略ESLint错误
-    ignoreDuringBuilds: true,
   },
 };
 

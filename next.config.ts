@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: "export", // ⬅️ THIS is crucial for Cloudflare Pages
+  
   trailingSlash: true, // Ensures consistent URLs
   reactStrictMode: false,
   devIndicators: false,

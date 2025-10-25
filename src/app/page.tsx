@@ -1,14 +1,17 @@
-import { Suspense } from 'react';
-import dynamic from 'next/dynamic';
+'use client';
 
-const AnimatedLanding = dynamic(
-  () => import('@/components/client/animated-landing'),
-  { ssr: false }
-);
+import { useState, useEffect } from 'react';
+import AnimatedLanding from '@/components/client/animated-landing';
 
 export default function ZaytoudLanding() {
-  return (
-    <Suspense fallback={
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return (
       <div className="min-h-screen bg-black text-white flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-4xl font-bold text-amber-400 mb-4">ZAYTOUD</h1>
@@ -19,8 +22,8 @@ export default function ZaytoudLanding() {
           </div>
         </div>
       </div>
-    }>
-      <AnimatedLanding />
-    </Suspense>
-  );
+    );
+  }
+
+  return <AnimatedLanding />;
 }

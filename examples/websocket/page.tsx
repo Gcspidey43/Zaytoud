@@ -1,7 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { io } from 'socket.io-client';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -14,47 +13,24 @@ type Message = {
 }
 
 export default function SocketDemo() {
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<Message[]>([
+    {
+      text: 'Welcome to the mock WebSocket demo!',
+      senderId: 'system',
+      timestamp: new Date().toISOString()
+    }
+  ]);
   const [inputMessage, setInputMessage] = useState('');
-  const [socket, setSocket] = useState<any>(null);
-  const [isConnected, setIsConnected] = useState(false);
-
-  useEffect(() => {
-    const socketInstance = io({
-      path: '/api/socketio',
-    });
-
-    setSocket(socketInstance);
-
-    socketInstance.on('connect', () => {
-      setIsConnected(true);
-    });
-
-    socketInstance.on('disconnect', () => {
-      setIsConnected(false);
-    });
-
-    socketInstance.on('message', (msg: Message) => {
-      setMessages(prev => [...prev, msg]);
-    });
-
-    return () => {
-      socketInstance.disconnect();
-    };
-  }, []);
+  const isConnected = true; // Mock connection status
 
   const sendMessage = () => {
-    if (socket && inputMessage.trim()) {
-      setMessages(prev => [...prev, {
+    if (inputMessage.trim()) {
+      const newMessage: Message = {
         text: inputMessage.trim(),
-        senderId: socket.id || 'user',
+        senderId: 'user',
         timestamp: new Date().toISOString()
-      }]);
-      socket.emit('message', {
-        text: inputMessage.trim(),
-        senderId: socket.id || 'user',
-        timestamp: new Date().toISOString()
-      });
+      };
+      setMessages(prev => [...prev, newMessage]);
       setInputMessage('');
     }
   };
@@ -70,34 +46,30 @@ export default function SocketDemo() {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center justify-between">
-            WebSocket Demo
-            <span className={`text-sm px-2 py-1 rounded ${isConnected ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
-              {isConnected ? 'Connected' : 'Disconnected'}
+            WebSocket Demo (Mock)
+            <span className="text-sm px-2 py-1 rounded bg-green-100 text-green-800">
+              Mock Mode
             </span>
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <ScrollArea className="h-80 w-full border rounded-md p-4">
             <div className="space-y-2">
-              {messages.length === 0 ? (
-                <p className="text-gray-500 text-center">No messages yet</p>
-              ) : (
-                messages.map((msg, index) => (
-                  <div key={index} className="border-b pb-2 last:border-b-0">
-                    <div className="flex justify-between items-start">
-                      <div className="flex-1">
-                        <p className="text-sm font-medium text-gray-700">
-                          {msg.senderId}
-                        </p>
-                        <p className="text-gray-900">{msg.text}</p>
-                      </div>
-                      <span className="text-xs text-gray-500">
-                        {new Date(msg.timestamp).toLocaleTimeString()}
-                      </span>
+              {messages.map((msg, index) => (
+                <div key={index} className="border-b pb-2 last:border-b-0">
+                  <div className="flex justify-between items-start">
+                    <div className="flex-1">
+                      <p className="text-sm font-medium text-gray-700">
+                        {msg.senderId}
+                      </p>
+                      <p className="text-gray-900">{msg.text}</p>
                     </div>
+                    <span className="text-xs text-gray-500">
+                      {new Date(msg.timestamp).toLocaleTimeString()}
+                    </span>
                   </div>
-                ))
-              )}
+                </div>
+              ))}
             </div>
           </ScrollArea>
 
@@ -107,12 +79,11 @@ export default function SocketDemo() {
               onChange={(e) => setInputMessage(e.target.value)}
               onKeyPress={handleKeyPress}
               placeholder="Type a message..."
-              disabled={!isConnected}
               className="flex-1"
             />
             <Button 
               onClick={sendMessage} 
-              disabled={!isConnected || !inputMessage.trim()}
+              disabled={!inputMessage.trim()}
             >
               Send
             </Button>

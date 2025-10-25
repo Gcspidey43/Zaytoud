@@ -42,6 +42,38 @@ const nextConfig: NextConfig = {
       })
     );
 
+    // Optimize bundle size by limiting chunk sizes
+    if (!isServer && config.optimization) {
+      config.optimization.splitChunks = {
+        chunks: 'all',
+        cacheGroups: {
+          default: {
+            minChunks: 2,
+            priority: -20,
+          },
+          vendor: {
+            test: /[\\/]node_modules[\\/]/,
+            name: 'vendors',
+            priority: -10,
+            chunks: 'all',
+          },
+          // Separate heavy libraries to their own chunks
+          'framer-motion': {
+            test: /[\\/]node_modules[\\/]framer-motion[\\/]/,
+            name: 'framer-motion',
+            chunks: 'all',
+            priority: 20,
+          },
+          'react-syntax-highlighter': {
+            test: /[\\/]node_modules[\\/]react-syntax-highlighter[\\/]/,
+            name: 'react-syntax-highlighter',
+            chunks: 'all',
+            priority: 20,
+          },
+        },
+      };
+    }
+
     return config;
   },
   serverExternalPackages: [

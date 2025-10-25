@@ -42,6 +42,9 @@ const nextConfig: NextConfig = {
       })
     );
 
+    // Disable webpack cache to prevent large cache files
+    config.cache = false;
+    
     // Optimize bundle size by limiting chunk sizes
     if (!isServer && config.optimization) {
       config.optimization.splitChunks = {

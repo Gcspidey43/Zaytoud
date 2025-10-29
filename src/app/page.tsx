@@ -27,3 +27,7 @@ export default function ZaytoudLanding() {
 
   return <AnimatedLanding />;
 }
+
+export const config = {
+  runtime: 'edge',
+};

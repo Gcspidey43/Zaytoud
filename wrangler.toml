@@ -1,7 +1,7 @@
 name = "zaytoud"
 compatibility_date = "2025-01-01"
 
-account_id = "your-account-id"  # Replace with your Cloudflare account ID
+account_id = "0472c7c46e5608e5d9a545d53f911792"
 
 # Configuration for static asset deployment
 [assets]

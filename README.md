@@ -45,7 +45,6 @@ This project is configured for deployment to Cloudflare Pages through GitHub int
 1. **Connect your GitHub repository** to Cloudflare Pages
 2. **Set build configuration:**
    - Build command: `npm run cf-build`
-   - Build output directory: `out` (or leave empty for Next.js default)
    - Root directory: `/`
 3. **Environment variables (if needed):**
    - NODE_VERSION: `20`

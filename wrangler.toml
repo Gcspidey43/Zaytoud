@@ -1,18 +1,4 @@
 name = "zaytoud"
 compatibility_date = "2025-01-01"
 
-[env.production]
-account_id = ""
-workers_dev = true
-
-[env.staging]
-account_id = ""
-workers_dev = true
-
-[build]
-command = "npm run build"
-upload_format = "single-bundle"
-
-[build.environment]
-NODE_VERSION = "20"
-NPM_FLAGS = "--version"
+pages_build_output_dir = ".next"

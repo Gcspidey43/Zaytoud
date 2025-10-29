@@ -40,7 +40,7 @@ export default function AnimatedLanding() {
   }, []);
 
   const handleWhatsAppClick = () => {
-    window.open('https://wa.me/1234567890?text=I%20want%20to%20join%20Zaytoud%20waitlist', '_blank');
+    window.open('https://wa.me/+923275899477?text=I%20want%20to%20join%20Zaytoud%20waitlist', '_blank');
   };
 
   const toggleFAQ = (index: number) => {
@@ -356,7 +356,7 @@ export default function AnimatedLanding() {
                 transition={{ duration: 1.5, delay: 1.2 }}
                 viewport={{ once: true }}
               >
-                Pakistan's first perfumed hair serum, made with 9 pure oils — Coconut, Jojoba, Argan, Almond, Grapeseed, Pumpkin Seed, Fenugreek, Amla, and Vitamin E — blended with therapeutic essential oils like Sandalwood, Rosewood, and Lavender.
+                Pakistan's first perfumed hair serum, made with 9 pure oils — Coconut, Jojoba, Argan, Almond, Grapeseed, Pumpkin Seed, Fenugreek, Amla, and Vitamin E — blended with therapeutic essential oils: Sandalwood, Rosewood, Lavender & more.
               </motion.p>
               
               <motion.p

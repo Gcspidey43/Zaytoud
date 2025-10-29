@@ -1,4 +1,10 @@
 name = "zaytoud"
 compatibility_date = "2025-01-01"
 
+[env.production]
+account_id = ""
+pages_build_output_dir = ".next"
+
+[env.staging]
+account_id = ""
 pages_build_output_dir = ".next"

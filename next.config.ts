@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  output: 'export', // Enables static export for deployment to Cloudflare Workers
   trailingSlash: true, // Ensures consistent URLs
   reactStrictMode: false,
   devIndicators: false,

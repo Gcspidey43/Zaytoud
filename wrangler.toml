@@ -1,5 +1,2 @@
 name = "zaytoud"
 compatibility_date = "2025-01-01"
-
-# For Next.js apps, Cloudflare Pages automatically detects the .next output directory
-pages_build_output_dir = ".next"

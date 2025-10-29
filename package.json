@@ -9,7 +9,6 @@
     "lint": "next lint",
     "cf-build": "next build",
     "cf-dev": "next dev",
-    "deploy": "next build",
     "db:push": "prisma db push",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
